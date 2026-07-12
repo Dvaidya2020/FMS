@@ -8,11 +8,32 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const TO_EMAIL = "Dvaidya2020@gmail.com";
 
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204);
+  }
+
+  next();
+});
+
 app.use(express.json({ limit: "20kb" }));
 app.use(express.static(__dirname));
 
 function clean(value) {
   return String(value || "").trim();
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 function createTransporter() {
@@ -55,13 +76,18 @@ app.post("/api/enquiry", async (req, res) => {
     message,
   ].join("\n");
 
+  const safeName = escapeHtml(name);
+  const safePhone = escapeHtml(phone);
+  const safeService = escapeHtml(service);
+  const safeMessage = escapeHtml(message).replace(/\n/g, "<br>");
+
   const html = `
     <h2>New Website Enquiry</h2>
-    <p><strong>Name:</strong> ${name}</p>
-    <p><strong>Phone:</strong> ${phone}</p>
-    <p><strong>Service Required:</strong> ${service}</p>
+    <p><strong>Name:</strong> ${safeName}</p>
+    <p><strong>Phone:</strong> ${safePhone}</p>
+    <p><strong>Service Required:</strong> ${safeService}</p>
     <p><strong>Message:</strong></p>
-    <p>${message.replace(/\n/g, "<br>")}</p>
+    <p>${safeMessage}</p>
   `;
 
   try {
