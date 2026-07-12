@@ -65,12 +65,13 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  width: min(330px, 48vw);
+  width: min(360px, 48vw);
+  height: 76px;
 }
 
 .brand img {
   width: 100%;
-  max-height: 68px;
+  height: 100%;
   object-fit: contain;
   object-position: left center;
 }
@@ -239,24 +240,37 @@ h3 {
 .hero-card {
   position: absolute;
   right: clamp(20px, 6vw, 88px);
-  bottom: 56px;
+  bottom: 52px;
   z-index: 3;
-  width: min(330px, calc(100% - 40px));
-  border-left: 4px solid var(--gold);
-  padding: 26px;
-  background: rgba(255, 255, 255, 0.96);
+  width: min(390px, calc(100% - 40px));
+  overflow: hidden;
+  padding: 26px 28px 28px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(240, 248, 248, 0.94)),
+    var(--white);
   border-radius: 8px;
-  box-shadow: var(--shadow);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: 0 24px 60px rgba(5, 20, 29, 0.26);
   color: var(--ink);
 }
 
+.hero-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 6px;
+  background: linear-gradient(180deg, var(--gold), var(--teal));
+}
+
 .hero-card span,
-.hero-card strong {
+.hero-card strong,
+.hero-card p {
   display: block;
+  position: relative;
 }
 
 .hero-card span {
-  color: var(--muted);
+  color: var(--teal-dark);
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0;
@@ -264,11 +278,18 @@ h3 {
 }
 
 .hero-card strong {
-  margin-top: 8px;
+  margin-top: 10px;
   color: var(--navy);
   font-family: "Manrope", "Inter", "Segoe UI", Arial, sans-serif;
-  font-size: 25px;
-  line-height: 1.2;
+  font-size: clamp(25px, 2.4vw, 31px);
+  line-height: 1.12;
+}
+
+.hero-card p {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.55;
 }
 
 .intro-strip {
@@ -324,6 +345,7 @@ address span {
 }
 
 .services-section {
+  padding-top: 60px;
   background: var(--paper);
 }
 
@@ -333,6 +355,7 @@ address span {
 }
 
 .standards-section {
+  padding-bottom: 58px;
   background: var(--paper);
 }
 
@@ -622,7 +645,7 @@ textarea:focus {
     position: relative;
     right: auto;
     bottom: auto;
-    margin-top: 38px;
+    margin-top: 34px;
   }
 
   .intro-strip,
@@ -641,11 +664,12 @@ textarea:focus {
 
 @media (max-width: 760px) {
   .site-header {
-    padding: 14px 18px;
+    padding: 10px 22px;
   }
 
   .brand {
-    width: min(230px, 58vw);
+    width: min(286px, 58vw);
+    height: 82px;
   }
 
   .nav-toggle {
@@ -654,7 +678,7 @@ textarea:focus {
 
   .site-nav {
     position: absolute;
-    top: 74px;
+    top: calc(100% + 10px);
     right: 18px;
     display: none;
     width: min(270px, calc(100vw - 36px));
@@ -681,6 +705,14 @@ textarea:focus {
 
   .section {
     padding: 68px 20px;
+  }
+
+  .standards-section {
+    padding-bottom: 28px;
+  }
+
+  .services-section {
+    padding-top: 34px;
   }
 
   .intro-strip article,
